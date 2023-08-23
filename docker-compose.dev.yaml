@@ -1,0 +1,37 @@
+# run this commmand on terminal to start the api and DB
+# docker-compose.dev.yaml
+
+version: "3.8"
+
+services:
+  db_dev:
+    container_name: drinkwater_db_dev
+    image: postgres
+    environment:
+      POSTGRES_USER: drinkwater_dev_user
+      POSTGRES_PASSWORD: drinkwater_dev_pass
+      POSTGRES_DB: drinkwater_dev_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+
+  app:
+    container_name: drinkwater_app_dev
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DB_HOST: db_dev
+    command: ["npx", "nodemon", "-L"]
+    # Mapeia o diretório do projeto e usa um volume anônimo para node_modules
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db_dev
+
+volumes:
+  postgres-data-dev:
+

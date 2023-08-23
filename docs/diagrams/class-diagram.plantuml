@@ -1,0 +1,88 @@
+@startuml Class Diagram - App Drink Water Reminder
+
+title Class Diagram - App Drink Water Reminder
+
+enum Gender {
+    MALE
+    FEMALE
+}
+
+enum HeightUnit {
+    CM
+}
+
+enum WeightUnit {
+    KG
+}
+
+enum LiquidUnit {
+    mL
+}
+
+class User {
+    + id: Integer
+    + username: String
+    + password: String (hashed)
+    + email: String (unique)
+    + birthDate: Date
+    + weight: Double
+    + weightUnit: WeightUnit
+    + height: Double
+    + heightUnit: HeightUnit
+    + gender: Gender
+    --
+    + register()
+    + login()
+    + updateProfile()
+    + remove()
+}
+
+class UsersController {
+    + create(UserDto): User
+    + findAll(): User[]
+    + findById(Integer): User
+    + update(Integer, UpdateUserDto): User
+    + remove(Integer): void
+}
+
+class UsersService {
+    + create(UserDto): User
+    + findAll(): User[]
+    + findById(Integer): User
+    + update(Integer, UpdateUserDto): User
+    + remove(Integer): void
+}
+
+class UserDto {
+    + username: String
+    + password: String
+    + email: String
+    + birthDate: Date
+    + weight: Double
+    + height: Double
+    + gender: Gender
+    + weightUnit: WeightUnit
+    + heightUnit: HeightUnit
+}
+
+class UpdateUserDto {
+    <<inherits>> UserDto
+}
+
+class WaterIntake {
+    + id: Integer
+    + userId: Integer (FK)
+    + quantity: Double
+    + unit: LiquidUnit
+    + timestamp: DateTime
+    --
+    + addIntake()
+    + getIntakesByUser()
+    + getDailyStats()
+    + getWeeklyStats()
+    + getMonthlyStats()
+}
+
+User "1" -- "0..*" WaterIntake : has
+
+@enduml
