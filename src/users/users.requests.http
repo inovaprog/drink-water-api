@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "username": "John Doe",
-  "password": "plainTextPassword123!", 
+  "password": "plainTextPassword123!",
   "email": "john.doe@example.com",
   "birthDate": "1990-01-01",
   "weight": 72.5,
@@ -20,7 +20,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/v1/users
 
 ### Get user by id
-GET http://localhost:3000/api/v1/users/1
+GET http://localhost:3000/api/v1/users/2
 
 ### Update user by ID
 PATCH http://localhost:3000/api/v1/users/1
@@ -32,4 +32,4 @@ Content-Type: application/json
 }
 
 ### Delete user by id
-DELETE http://localhost:3000/api/v1/users/2
+DELETE http://localhost:3000/api/v1/users/1

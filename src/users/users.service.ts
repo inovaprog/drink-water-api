@@ -1,5 +1,5 @@
 // src/users/users.service.ts
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
@@ -9,30 +9,48 @@ import { User } from "./entities/user.entity";
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new Logger(UsersService.name);
+
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
 
   public async create(createUserDto: UserDto): Promise<User> {
+    this.logger.log(`Attempting to create a new user with data: ${JSON.stringify(createUserDto, null, 2)}`);
+
     const existingUser = await this.usersRepository.findOne({ where: { email: createUserDto.email } });
 
     if (existingUser) {
+      this.logger.warn("User with this email already exists.");
       throw new ConflictException("User with this email already exists.");
     }
 
     const user = this.usersRepository.create(createUserDto);
-    return await this.usersRepository.save(user);
+    const savedUser = await this.usersRepository.save(user);
+
+    this.logger.log(`User successfully created with ID: ${savedUser.id}`);
+
+    return savedUser;
   }
 
   public async findAll(): Promise<User[]> {
-    return await this.usersRepository.find();
+    this.logger.log("Fetching all users.");
+
+    const users = await this.usersRepository.find();
+
+    this.logger.log(`Found ${users.length} users.`);
+
+    return users;
   }
 
   public async findById(id: number): Promise<User> {
+    this.logger.log(`Fetching user with ID: ${id}`);
+
     const user = await this.usersRepository.findOne({ where: { id } });
 
     if (!user) {
+      this.logger.warn(`User with ID ${id} not found`);
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
@@ -40,24 +58,36 @@ export class UsersService {
   }
 
   public async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+    this.logger.log(`Attempting to update user with ID: ${id}`);
+
     const user = await this.usersRepository.findOne({ where: { id } });
 
     if (!user) {
+      this.logger.warn(`User with ID ${id} not found`);
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
     Object.assign(user, updateUserDto);
 
-    return await this.usersRepository.save(user);
+    const updatedUser = await this.usersRepository.save(user);
+
+    this.logger.log(`User with ID ${id} successfully updated.`);
+
+    return updatedUser;
   }
 
   public async remove(id: number): Promise<void> {
+    this.logger.log(`Attempting to remove user with ID: ${id}`);
+
     const user = await this.usersRepository.findOne({ where: { id } });
 
     if (!user) {
+      this.logger.warn(`User with ID ${id} not found`);
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
     await this.usersRepository.remove(user);
+
+    this.logger.log(`Successfully removed user with ID: ${id}`);
   }
 }

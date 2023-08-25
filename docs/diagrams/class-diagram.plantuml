@@ -30,11 +30,6 @@ class User {
     + height: Double
     + heightUnit: HeightUnit
     + gender: Gender
-    --
-    + register()
-    + login()
-    + updateProfile()
-    + remove()
 }
 
 class UsersController {
@@ -75,12 +70,6 @@ class WaterIntake {
     + quantity: Double
     + unit: LiquidUnit
     + timestamp: DateTime
-    --
-    + addIntake()
-    + getIntakesByUser()
-    + getDailyStats()
-    + getWeeklyStats()
-    + getMonthlyStats()
 }
 
 User "1" -- "0..*" WaterIntake : has

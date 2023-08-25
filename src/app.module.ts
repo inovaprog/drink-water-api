@@ -1,34 +1,23 @@
 // src/app.module.ts
 import { Module, ValidationPipe } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import { APP_PIPE } from "@nestjs/core";
-import { TypeOrmModule } from "@nestjs/typeorm";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { DatabaseModule } from "./database/database.module";
 import { UsersModule } from "./users/users.module";
+import { WaterIntakeModule } from "./water-intake/water-intake.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      envFilePath: ".env",
       isGlobal: true,
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: "postgres",
-        host: configService.get("DB_HOST"),
-        port: Number(configService.get("DB_PORT")),
-        username: configService.get("DB_USERNAME"),
-        password: configService.get("DB_PASSWORD"),
-        database: configService.get("DB_NAME"),
-        entities: [__dirname + "/**/*.entity{.ts,.js}"],
-        synchronize: process.env.NODE_ENV !== "production",
-      }),
-    }),
     UsersModule,
+    DatabaseModule,
+    WaterIntakeModule,
   ],
   controllers: [AppController],
   providers: [

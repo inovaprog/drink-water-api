@@ -1,0 +1,32 @@
+### CRUD for WaterIntake entity. ###
+
+### Create a new WaterIntake record
+POST http://localhost:3000/api/v1/water-intake
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "quantity": 300,
+  "unit": "mL",
+  "timestamp": "2023-08-21T12:34:56Z"
+}
+
+### Get all WaterIntake records
+GET http://localhost:3000/api/v1/water-intake
+Content-Type: application/json
+
+### Get a specific WaterIntake record by ID
+GET http://localhost:3000/api/v1/water-intake/2
+Content-Type: application/json
+
+### Update a WaterIntake record by ID
+PATCH http://localhost:3000/api/v1/water-intake/2
+Content-Type: application/json
+
+{
+  "quantity": 400
+}
+
+### Delete a WaterIntake record by ID
+DELETE http://localhost:3000/api/v1/water-intake/2
+Content-Type: application/json

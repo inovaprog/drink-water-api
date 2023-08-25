@@ -2,9 +2,9 @@
 import { Expose, Transform } from "class-transformer";
 import { IsEmail, IsString, IsDate, IsNumber, IsNotEmpty, Min, Max, Length, IsIn, Matches } from "class-validator";
 
-import { Gender } from "../enums/Gender";
-import { HeightUnit } from "../enums/HeightUnit";
-import { WeightUnit } from "../enums/WeightUnit";
+import { Gender } from "../enums/gender.enum";
+import { HeightUnit } from "../enums/height-unit.enum";
+import { WeightUnit } from "../enums/weight-unit.enum";
 
 export class UserDto {
   @IsNotEmpty()

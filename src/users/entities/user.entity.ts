@@ -1,9 +1,10 @@
 // src/users/user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, Unique, AfterInsert, AfterUpdate, AfterRemove } from "typeorm";
+import { WaterIntake } from "src/water-intake/entities/water-intake.entity";
+import { Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany } from "typeorm";
 
-import { Gender } from "../enums/Gender";
-import { HeightUnit } from "../enums/HeightUnit";
-import { WeightUnit } from "../enums/WeightUnit";
+import { Gender } from "../enums/gender.enum";
+import { HeightUnit } from "../enums/height-unit.enum";
+import { WeightUnit } from "../enums/weight-unit.enum";
 
 @Entity("users")
 @Unique(["email"])
@@ -50,18 +51,6 @@ export class User {
   })
   gender: Gender;
 
-  @AfterInsert()
-  logInsert() {
-    console.log("Inserted User with id:", this.id);
-  }
-
-  @AfterUpdate()
-  logUpdate() {
-    console.log("Updated User with id:", this.id);
-  }
-
-  @AfterRemove()
-  logRemove() {
-    console.log("Removed User with id:", this.id);
-  }
+  @OneToMany(() => WaterIntake, waterIntake => waterIntake.user)
+  waterIntakes: WaterIntake[];
 }
