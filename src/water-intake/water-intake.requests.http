@@ -5,7 +5,7 @@ POST http://localhost:3000/api/v1/water-intake
 Content-Type: application/json
 
 {
-  "userId": 1,
+  "userId": 2,
   "quantity": 300,
   "unit": "mL",
   "timestamp": "2023-08-21T12:34:56Z"
@@ -16,17 +16,17 @@ GET http://localhost:3000/api/v1/water-intake
 Content-Type: application/json
 
 ### Get a specific WaterIntake record by ID
-GET http://localhost:3000/api/v1/water-intake/2
+GET http://localhost:3000/api/v1/water-intake/3
 Content-Type: application/json
 
 ### Update a WaterIntake record by ID
-PATCH http://localhost:3000/api/v1/water-intake/2
+PATCH http://localhost:3000/api/v1/water-intake/3
 Content-Type: application/json
 
 {
-  "quantity": 400
+  "quantity": 500
 }
 
 ### Delete a WaterIntake record by ID
-DELETE http://localhost:3000/api/v1/water-intake/2
+DELETE http://localhost:3000/api/v1/water-intake/3
 Content-Type: application/json

@@ -1,11 +1,11 @@
 // src/users/users.service.ts
 import { ConflictException, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
 
 import { UpdateUserDto } from "./dtos/update-user.dto";
 import { UserDto } from "./dtos/user.dto";
 import { User } from "./entities/user.entity";
+import { UsersRepository } from "./repositories/users.repository";
 
 @Injectable()
 export class UsersService {
@@ -13,7 +13,7 @@ export class UsersService {
 
   constructor(
     @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   public async create(createUserDto: UserDto): Promise<User> {

@@ -1,12 +1,13 @@
 import { Injectable, ConflictException, NotFoundException, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { UsersRepository } from "src/users/repositories/users.repository";
 
 import { User } from "../users/entities/user.entity";
 
 import { UpdateWaterIntakeDto } from "./dto/update-water-intake.dto";
 import { WaterIntakeDto } from "./dto/water-intake.dto";
 import { WaterIntake } from "./entities/water-intake.entity";
+import { WaterIntakeRepository } from "./repositories/water-intake.repository";
 
 @Injectable()
 export class WaterIntakeService {
@@ -14,9 +15,9 @@ export class WaterIntakeService {
 
   constructor(
     @InjectRepository(WaterIntake)
-    private readonly waterIntakeRepository: Repository<WaterIntake>,
+    private readonly waterIntakeRepository: WaterIntakeRepository,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: UsersRepository,
   ) {}
 
   public async create(waterIntakeDto: WaterIntakeDto): Promise<WaterIntake> {
