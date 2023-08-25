@@ -3,20 +3,21 @@ import { Controller, Post, Body, Get, UseGuards, Param, Patch, Delete, Logger } 
 import { HashPasswordGuard } from "src/guards/hash-password.guard";
 import { Serialize } from "src/interceptors/serialize.interceptor";
 
+import { CreateUserDto } from "./dtos/create-user.dto";
 import { UpdateUserDto } from "./dtos/update-user.dto";
 import { UserDto } from "./dtos/user.dto";
 import { UsersService } from "./users.service";
 
-@Controller("users")
 @Serialize(UserDto)
 @UseGuards(HashPasswordGuard)
+@Controller("users")
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: UserDto) {
+  create(@Body() createUserDto: CreateUserDto) {
     this.logger.log(`Attempting to create a new user with data: ${JSON.stringify(createUserDto, null, 2)}`);
     return this.usersService.create(createUserDto);
   }

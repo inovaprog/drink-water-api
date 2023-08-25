@@ -4,8 +4,8 @@ import { UsersRepository } from "src/users/repositories/users.repository";
 
 import { User } from "../users/entities/user.entity";
 
-import { UpdateWaterIntakeDto } from "./dto/update-water-intake.dto";
-import { WaterIntakeDto } from "./dto/water-intake.dto";
+import { CreateWaterIntakeDto } from "./dtos/create-water-intake.dto";
+import { UpdateWaterIntakeDto } from "./dtos/update-water-intake.dto";
 import { WaterIntake } from "./entities/water-intake.entity";
 import { WaterIntakeRepository } from "./repositories/water-intake.repository";
 
@@ -20,17 +20,17 @@ export class WaterIntakeService {
     private readonly userRepository: UsersRepository,
   ) {}
 
-  public async create(waterIntakeDto: WaterIntakeDto): Promise<WaterIntake> {
-    this.logger.log(`Creating a new water intake record: ${JSON.stringify(waterIntakeDto, null, 2)}`);
+  public async create(createWaterIntakeDto: CreateWaterIntakeDto): Promise<WaterIntake> {
+    this.logger.log(`Creating a new water intake record: ${JSON.stringify(createWaterIntakeDto, null, 2)}`);
 
-    const user = await this.userRepository.findOne({ where: { id: waterIntakeDto.userId } });
+    const user = await this.userRepository.findOne({ where: { id: createWaterIntakeDto.userId } });
     if (!user) {
-      this.logger.warn(`User with ID ${waterIntakeDto.userId} not found`);
-      throw new NotFoundException(`User with ID ${waterIntakeDto.userId} not found`);
+      this.logger.warn(`User with ID ${createWaterIntakeDto.userId} not found`);
+      throw new NotFoundException(`User with ID ${createWaterIntakeDto.userId} not found`);
     }
 
     const existingWaterIntake = await this.waterIntakeRepository.findOne({
-      where: { userId: waterIntakeDto.userId, timestamp: waterIntakeDto.timestamp },
+      where: { userId: createWaterIntakeDto.userId, timestamp: createWaterIntakeDto.timestamp },
     });
 
     if (existingWaterIntake) {
@@ -38,7 +38,7 @@ export class WaterIntakeService {
       throw new ConflictException("A water intake record with this userId and timestamp already exists.");
     }
 
-    const waterIntake = this.waterIntakeRepository.create(waterIntakeDto);
+    const waterIntake = this.waterIntakeRepository.create(createWaterIntakeDto);
     const savedWaterIntake = await this.waterIntakeRepository.save(waterIntake);
 
     this.logger.log(`Water intake record successfully created with ID: ${savedWaterIntake.id}`);

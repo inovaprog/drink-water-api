@@ -8,6 +8,11 @@ export class WaterIntakeDto {
   @IsNotEmpty()
   @IsNumber()
   @Expose()
+  id: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @Expose()
   userId: number;
 
   @IsNotEmpty()
@@ -23,6 +28,6 @@ export class WaterIntakeDto {
   @IsNotEmpty()
   @IsDate()
   @Expose()
-  @Transform(({ value }) => new Date(value))
+  @Transform(({ value }) => (value ? new Date(value) : value))
   timestamp: Date;
 }

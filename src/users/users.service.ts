@@ -2,8 +2,8 @@
 import { ConflictException, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
+import { CreateUserDto } from "./dtos/create-user.dto";
 import { UpdateUserDto } from "./dtos/update-user.dto";
-import { UserDto } from "./dtos/user.dto";
 import { User } from "./entities/user.entity";
 import { UsersRepository } from "./repositories/users.repository";
 
@@ -16,7 +16,7 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
   ) {}
 
-  public async create(createUserDto: UserDto): Promise<User> {
+  public async create(createUserDto: CreateUserDto): Promise<User> {
     this.logger.log(`Attempting to create a new user with data: ${JSON.stringify(createUserDto, null, 2)}`);
 
     const existingUser = await this.usersRepository.findOne({ where: { email: createUserDto.email } });

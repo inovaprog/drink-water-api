@@ -3,11 +3,9 @@ import { Module, ValidationPipe } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { APP_PIPE } from "@nestjs/core";
 
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
 import { DatabaseModule } from "./database/database.module";
 import { UsersModule } from "./users/users.module";
-import { WaterIntakeModule } from "./water-intake/water-intake.module";
+import { WaterIntakeModule } from "./water-intakes/water-intake.module";
 
 @Module({
   imports: [
@@ -19,9 +17,8 @@ import { WaterIntakeModule } from "./water-intake/water-intake.module";
     DatabaseModule,
     WaterIntakeModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({

@@ -1,5 +1,5 @@
 // src/users/user.entity.ts
-import { WaterIntake } from "src/water-intake/entities/water-intake.entity";
+import { WaterIntake } from "src/water-intakes/entities/water-intake.entity";
 import { Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany } from "typeorm";
 
 import { Gender } from "../enums/gender.enum";

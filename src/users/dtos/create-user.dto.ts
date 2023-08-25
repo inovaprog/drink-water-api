@@ -1,21 +1,25 @@
+// src/users/dtos/user.dto.ts
 import { Expose, Transform } from "class-transformer";
-import { IsEmail, IsString, IsDate, IsNumber, IsNotEmpty, Min, Max, Length, IsIn } from "class-validator";
+import { IsEmail, IsString, IsDate, IsNumber, IsNotEmpty, Min, Max, Length, IsIn, Matches } from "class-validator";
 
 import { Gender } from "../enums/gender.enum";
 import { HeightUnit } from "../enums/height-unit.enum";
 import { WeightUnit } from "../enums/weight-unit.enum";
 
-export class UserDto {
-  @IsNotEmpty()
-  @IsNumber()
-  @Expose()
-  id: number;
-
+export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @Length(3, 255)
   @Expose()
   username: string;
+
+  @IsString()
+  @Length(8, 128)
+  @Matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).+/, {
+    message:
+      "Password is too weak. It should contain an uppercase letter, lowercase letter, number, and special character.",
+  })
+  password: string;
 
   @IsNotEmpty()
   @IsEmail()

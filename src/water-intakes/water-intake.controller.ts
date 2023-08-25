@@ -1,9 +1,12 @@
 import { Controller, Post, Body, Get, Param, Patch, Logger, Delete } from "@nestjs/common";
+import { Serialize } from "src/interceptors/serialize.interceptor";
 
-import { UpdateWaterIntakeDto } from "./dto/update-water-intake.dto";
-import { WaterIntakeDto } from "./dto/water-intake.dto";
+import { CreateWaterIntakeDto } from "./dtos/create-water-intake.dto";
+import { UpdateWaterIntakeDto } from "./dtos/update-water-intake.dto";
+import { WaterIntakeDto } from "./dtos/water-intake.dto";
 import { WaterIntakeService } from "./water-intake.service";
 
+@Serialize(WaterIntakeDto)
 @Controller("water-intake")
 export class WaterIntakeController {
   private readonly logger = new Logger(WaterIntakeController.name);
@@ -11,7 +14,7 @@ export class WaterIntakeController {
   constructor(private readonly waterIntakeService: WaterIntakeService) {}
 
   @Post()
-  create(@Body() createWaterIntakeDto: WaterIntakeDto) {
+  create(@Body() createWaterIntakeDto: CreateWaterIntakeDto) {
     this.logger.log(`Creating a new water intake with data: ${JSON.stringify(createWaterIntakeDto, null, 2)}`);
     return this.waterIntakeService.create(createWaterIntakeDto);
   }

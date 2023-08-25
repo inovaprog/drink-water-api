@@ -4,7 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "t
 
 import { LiquidUnit } from "../enums/liquid-unit.enum";
 
-@Entity("waterIntakes")
+@Entity("water_intakes")
 export class WaterIntake {
   @PrimaryGeneratedColumn()
   id: number;
