@@ -90,4 +90,14 @@ export class UsersService {
 
     this.logger.log(`Successfully removed user with ID: ${id}`);
   }
+
+  public async findByEmail(email: string): Promise<User | null> {
+    this.logger.log(`Fetching user with Email: ${email}`);
+    const user = await this.usersRepository.findOne({ where: { email } });
+    if (!user) {
+      this.logger.warn(`User with email ${email} not found`);
+      return null;
+    }
+    return user;
+  }
 }

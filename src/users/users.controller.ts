@@ -1,5 +1,7 @@
 // src/users/users.controller.ts
 import { Controller, Post, Body, Get, UseGuards, Param, Patch, Delete, Logger } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { Public } from "src/decorators/public.decorator";
 import { HashPasswordGuard } from "src/guards/hash-password.guard";
 import { Serialize } from "src/interceptors/serialize.interceptor";
 
@@ -8,14 +10,15 @@ import { UpdateUserDto } from "./dtos/update-user.dto";
 import { UserDto } from "./dtos/user.dto";
 import { UsersService } from "./users.service";
 
+@UseGuards(HashPasswordGuard, JwtAuthGuard)
 @Serialize(UserDto)
-@UseGuards(HashPasswordGuard)
 @Controller("users")
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
   constructor(private readonly usersService: UsersService) {}
 
+  @Public()
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     this.logger.log(`Attempting to create a new user with data: ${JSON.stringify(createUserDto, null, 2)}`);

@@ -1,4 +1,5 @@
-import { Controller, Post, Body, Get, Param, Patch, Logger, Delete } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, Patch, Logger, Delete, UseGuards } from "@nestjs/common";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { Serialize } from "src/interceptors/serialize.interceptor";
 
 import { CreateWaterIntakeDto } from "./dtos/create-water-intake.dto";
@@ -6,6 +7,7 @@ import { UpdateWaterIntakeDto } from "./dtos/update-water-intake.dto";
 import { WaterIntakeDto } from "./dtos/water-intake.dto";
 import { WaterIntakeService } from "./water-intake.service";
 
+@UseGuards(JwtAuthGuard)
 @Serialize(WaterIntakeDto)
 @Controller("water-intake")
 export class WaterIntakeController {
