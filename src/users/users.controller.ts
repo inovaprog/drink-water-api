@@ -10,7 +10,6 @@ import { UpdateUserDto } from "./dtos/update-user.dto";
 import { UserDto } from "./dtos/user.dto";
 import { UsersService } from "./users.service";
 
-@UseGuards(HashPasswordGuard, JwtAuthGuard)
 @Serialize(UserDto)
 @Controller("users")
 export class UsersController {
@@ -26,24 +25,28 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(HashPasswordGuard, JwtAuthGuard)
   findAll() {
     this.logger.log("Fetching all users.");
     return this.usersService.findAll();
   }
 
   @Get("/:id")
+  @UseGuards(HashPasswordGuard, JwtAuthGuard)
   findById(@Param("id") id: number) {
     this.logger.log(`Fetching user with ID: ${id}`);
     return this.usersService.findById(id);
   }
 
   @Patch("/:id")
+  @UseGuards(HashPasswordGuard, JwtAuthGuard)
   update(@Param("id") id: number, @Body() updateUserDto: UpdateUserDto) {
     this.logger.log(`Attempting to update user with ID: ${id}`);
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete("/:id")
+  @UseGuards(HashPasswordGuard, JwtAuthGuard)
   remove(@Param("id") id: number) {
     this.logger.log(`Attempting to remove user with ID: ${id}`);
     return this.usersService.remove(id);
